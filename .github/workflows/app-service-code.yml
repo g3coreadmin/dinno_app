@@ -36,7 +36,7 @@ jobs:
         with:
           app-name: ${{ env.WEBAPP_NAME }}
           slot-name: "Production"
-          publish-profile: ${{ secrets.APP_PUBLISH_PROFILE }}
+          publish-profile: ${{ env.APPLICATION_PUBLISH_PROFILE }}
           package: ./build/standalone
 
   deploy:
