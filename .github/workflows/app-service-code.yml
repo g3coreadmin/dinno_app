@@ -23,21 +23,19 @@ jobs:
           node-version: 18
           cache: "yarn"
 
-      - name: yarn install and build
+      - name: Install dependencies and build
         run: |
           yarn install --no-lockfile
           yarn build
           mv ./build/static ./build/standalone/build
           mv ./public ./build/standalone
 
-      - name: "Deploy to Azure Web App"
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          app-name: ${{ env.WEBAPP_NAME }}
-          slot-name: "Production"
-          publish-profile: ${{ secrets.PUBLISH_PROFILE }}
-          package: ./build/standalone
+          name: dinno-app  # Ensure this matches the name used in download-artifact
+          path: ./build/standalone
+          retention-days: 5  # Keep the artifact for 5 days
 
   deploy:
     runs-on: ubuntu-latest
@@ -48,16 +46,21 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: dinno-app
+          name: dinno-app  # Ensure this matches the uploaded artifact name
+          path: ./build/standalone
 
-      - name: "Deploy to Azure Web App"
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: "Production"
-          publish-profile: ${{ secrets.PUBLISH_PROFILE }}
-          package: .
+          package: ./build/standalone
