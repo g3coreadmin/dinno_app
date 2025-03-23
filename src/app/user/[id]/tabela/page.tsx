@@ -11,7 +11,6 @@ interface Lancamento {
   valor: number;
   categoria: string;
   data: string; // formato ISO ou YYYY-MM-DD
-  [key: string]: any;
 }
 
 export default function LancamentosPage() {
@@ -107,7 +106,7 @@ export default function LancamentosPage() {
   );
 
     // 🔽 Função para exportar como CSV
-    function exportToCSV(data: any[]) {
+    function exportToCSV(data: Lancamento[]) {
         if (data.length === 0) return;
     
         const headers = ['Data', 'Descrição', 'Categoria', 'Valor'];

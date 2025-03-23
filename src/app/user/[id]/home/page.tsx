@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import type { User } from '@supabase/supabase-js';
 import LoadingScreen from '@/components/LoadingScreen'
 
 export default function UserHomePage() {
   const params = useParams();
   const router = useRouter();
-  const [currentUser, setUser] = useState(null);
+  const [currentUser, setUser] = useState<User | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
 
@@ -27,13 +28,13 @@ export default function UserHomePage() {
         };
     
         checkUserAccess();
-    }, [params.id]);
+    }, [params.id, router]);
 
     if (loading) return (<>{loading && <LoadingScreen />}</>);
 
     return (
         <div>
-          <h1 className="text-2xl font-bold">Bem-vindo, usuário {currentUser.user_metadata?.displayName}</h1>
+          <h1 className="text-2xl font-bold">Bem-vindo, usuário {currentUser?.user_metadata?.displayName}</h1>
         </div>
       );
 }
