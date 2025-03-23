@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "npx tailwindcss -i ./src/app/globals.css -o nul --minify"
+    "lint": "next lint"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
