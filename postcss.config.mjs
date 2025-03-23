@@ -1,5 +1,9 @@
-const config = {
-  plugins: ["@tailwindcss/postcss"],
+// postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {
+      engine: 'node', // 👈 força parser JS e evita erro do oxide
+    },
+    autoprefixer: {},
+  },
 };
-
-export default config;
