@@ -1,9 +1,12 @@
-// postcss.config.js
-module.exports = {
-  plugins: {
-    tailwindcss: {
-      engine: 'node', // 👈 força parser JS e evita erro do oxide
-    },
-    autoprefixer: {},
-  },
-};
+// postcss.config.js (modo ESM)
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
+
+const config = {
+  plugins: [
+    tailwindcss({ engine: 'node' }), // 👈 aqui você força usar a versão JS e evita o erro do oxide
+    autoprefixer,
+  ],
+}
+
+export default config
