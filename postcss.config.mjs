@@ -1,9 +1,9 @@
-import tailwindcss from 'tailwindcss'
+import tailwind from '@tailwindcss/postcss'
 import autoprefixer from 'autoprefixer'
 
 export default {
   plugins: [
-    tailwindcss({ engine: 'node' }), 
+    tailwind({ engine: 'node' }), // 👈 força uso do parser JS (sem oxide)
     autoprefixer,
   ],
 }
